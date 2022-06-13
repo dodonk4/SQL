@@ -1,6 +1,5 @@
-// import { clienteSqlAdmin as knex } from './clienteSql.js'
 const {options} = require('./knexConfig');
-// const knex = require('knex')(options);
+
 
 module.exports = class Contenedor{
     constructor(){
@@ -19,12 +18,12 @@ module.exports = class Contenedor{
                         thumbnail: 'https://estelar.com.ar/wp-content/uploads/2020/03/Apolo140E.jpg'
                     }
                 ];
-                    this.knex = require('knex')(options);
+        this.knex = require('knex')(options);
         
 
     }
     async obtenerTodos (){
-        this.knex('productos')
+        return await this.knex('productos')
         .select({
         id: 'id',
         title: 'title',
@@ -36,7 +35,6 @@ module.exports = class Contenedor{
       })
       .catch((err) => {
         console.error(err);
-        // return res.json({success: false, message: 'An error occurred, please try again later.'});
       })
     }
 
@@ -45,12 +43,21 @@ module.exports = class Contenedor{
             .then(()=> console.log('ok'));
     }
 
+    async insertarProductosIndividuales(data){
+            try {
+                await this.knex('productos').insert(data)
+                .then(()=> console.log(data))
+            } catch (error) {
+                console.log(`fallo la operacion: ${error.message}`)
+            }
+    }
+
     async crearTabla() {
         try {
             const exists = await this.knex.schema.hasTable('productos')
             if (!exists) {
                 await this.knex.schema.createTable('productos', tabla => {
-                    tabla.integer('id'),
+                        tabla.increments('id'),
                         tabla.string('title'),
                         tabla.integer('price'),
                         tabla.string('thumbnail')

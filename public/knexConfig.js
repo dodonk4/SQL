@@ -5,11 +5,18 @@ const options = {
         host: '127.0.0.1',
         port: 3306,
         user: 'root',
-        password: 'adada',
+        password: 'Pepit0',
         database: 'nuevo'
     }
     
 }
 
+const options2 = {
+    
+        client: 'sqlite3',
+        useNullAsDefault: true,
+        connection: { filename: './ecommerce/ecommerce.sqlite3' }
+}
 
-module.exports = { options }
+
+module.exports = { options, options2 }
